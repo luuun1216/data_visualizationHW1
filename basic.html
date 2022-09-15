@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+
+</head>
+<body>
+    <!-- create radio group -->
+    <form>
+      <div>
+        Xaxis:<br>
+        <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_lengthX" value="sepal_length" checked> sepal length</label><br>
+        <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_widthX" value="sepal_width"> sepal width</label><br>
+        <label style="display: inline;"><input type="radio" name="featureX" id = "petal_lengthX" value="petal_length"> petal length</label><br>
+        <label style="display: inline;" ><input type="radio" name="featureX" id = "petal_widthX" value="petal_width"> petal width</label>
+      </div>
+      <div>
+        Yaxis:<br>
+        <label style="display: none;" id = "sepal_length_label"><input type="radio" name="featureY" id = "sepal_lengthY" value="sepal_length"> sepal length</label><br>
+        <label style="display: inline;" id = "sepal_width_label"><input type="radio" name="featureY" id = "sepal_widthY" value="sepal_width"> sepal width</label><br>
+        <label style="display: inline;" id = "petal_length_label"><input type="radio" name="featureY" id = "petal_lengthY" value="petal_length" checked> petal length</label><br>
+        <label style="display: inline;" id = "petal_width_label"><input type="radio" name="featureY" id = "petal_widthY" value="petal_width"> petal width</label>
+      </div>
+      <div>
+        <input type="button" id = "submit" value="Click Me to Submit">
+      </div>
+    </form>
+    
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.js"></script>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="my_dataviz"></div>
+</body>
+
+
+
+
+<script>
+    // set the dimensions and margins of the graph
+    const margin = {top: 30, right: 30, bottom: 30, left: 60},
+        width = 640 - margin.left - margin.right,
+        height = 480 - margin.top - margin.bottom;
+    
+    // append the svg object to the body of the page
+    const svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform",
+              `translate(${margin.left}, ${margin.top})`);
+    
+    //Read the data
+    d3.csv("https://raw.githubusercontent.com/luuun1216/data_visualizationHW1/main/iris.csv").then( function(data) {
+    
+      // Add X axis
+      const x = d3.scaleLinear()
+        .domain([0, 9])
+        .range([ 0, width ]);
+      svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x));
+
+      // Add Y axis
+      const y = d3.scaleLinear()
+        .domain([0, 9])
+        .range([ height, 0]);
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      // Color scale: give me a specie name, I return a color
+      const color = d3.scaleOrdinal()
+        .domain(["setosa", "versicolor", "virginica" ])
+        .range([ "#613030", "#00AEAE", "#F9F900"])
+
+      svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("IRIS.csv");
+
+
+      
+      // Add dots
+      svg.append('g')
+        .selectAll("dot")
+        .data(data)
+        .join("circle")
+          .attr("cx", function (d) { return x(d.sepal_length); } )
+          .attr("cy", function (d) { return y(d.petal_length); } )
+          .attr("r", 5)
+          .style("fill", function (d) { return color(d.class); } )
+          
+      //lock the radio(just for beauty)
+      function lock(){
+        var userInputX = document.querySelector('input[name="featureX"]:checked').value;
+        var radio_id = document.getElementById(userInputX + "_label");
+        //console.log(radio_id)
+        if(userInputX == "sepal_length"){
+          document.getElementById("sepal_width_label").style.display = "inline";
+          document.getElementById("petal_length_label").style.display = "inline";
+          document.getElementById("petal_width_label").style.display = "inline";
+          radio_id.style.display = "none";
+        }
+        else if(userInputX == "sepal_width"){
+          document.getElementById("sepal_length_label").style.display = "inline";
+          document.getElementById("petal_length_label").style.display = "inline";
+          document.getElementById("petal_width_label").style.display = "inline";
+          radio_id.style.display = "none";
+        }
+        else if(userInputX == "petal_length"){
+          document.getElementById("sepal_length_label").style.display = "inline";
+          document.getElementById("sepal_width_label").style.display = "inline";
+          document.getElementById("petal_width_label").style.display = "inline";
+          radio_id.style.display = "none";
+        }
+        else if(userInputX == "petal_width"){
+          document.getElementById("sepal_length_label").style.display = "inline";
+          document.getElementById("sepal_width_label").style.display = "inline";
+          document.getElementById("petal_length_label").style.display = "inline";
+          radio_id.style.display = "none";
+        }
+      }
+
+      //update plot
+      function update(){
+        var userInputX = document.querySelector('input[name="featureX"]:checked').value;
+        var userInputY = document.querySelector('input[name="featureY"]:checked').value;
+        //console.log(userInputX)
+        //console.log(userInputY)
+
+        //sepal_length
+        if(userInputX == "sepal_length" && userInputY == "sepal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_length); } )
+            .attr("cy", function (d) { return y(d.sepal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "sepal_length" && userInputY == "petal_length"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_length); } )
+            .attr("cy", function (d) { return y(d.petal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "sepal_length" && userInputY == "petal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_length); } )
+            .attr("cy", function (d) { return y(d.petal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        //sepal_width
+        else if(userInputX == "sepal_width" && userInputY == "sepal_length"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_width); } )
+            .attr("cy", function (d) { return y(d.sepal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "sepal_width" && userInputY == "petal_length"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_width); } )
+            .attr("cy", function (d) { return y(d.petal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "sepal_width" && userInputY == "petal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.sepal_width); } )
+            .attr("cy", function (d) { return y(d.petal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        //petal_length
+        else if(userInputX == "petal_length" && userInputY == "sepal_length"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_length); } )
+            .attr("cy", function (d) { return y(d.sepal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "petal_length" && userInputY == "sepal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_length); } )
+            .attr("cy", function (d) { return y(d.sepal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "petal_length" && userInputY == "petal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_length); } )
+            .attr("cy", function (d) { return y(d.petal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        //petal_width
+        else if(userInputX == "petal_width" && userInputY == "sepal_length"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_width); } )
+            .attr("cy", function (d) { return y(d.sepal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "petal_width" && userInputY == "sepal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_width); } )
+            .attr("cy", function (d) { return y(d.sepal_width); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+        else if(userInputX == "petal_width" && userInputY == "petal_width"){
+          svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.petal_width); } )
+            .attr("cy", function (d) { return y(d.petal_length); } )
+            .style("fill", function (d) { return color(d.class); } )  
+        }
+
+
+
+
+        
+      }
+      
+
+
+      // Add an event listener to the button created in the html part
+      d3.select("#submit").on("click",update)
+      d3.select("#sepal_lengthX").on("input",lock)
+      d3.select("#sepal_widthX").on("input",lock)
+      d3.select("#petal_lengthX").on("input",lock)
+      d3.select("#petal_widthX").on("input",lock)
+    })
+    </script>
