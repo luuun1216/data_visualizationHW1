@@ -1,333 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>HW1 IRIS.csv</title>
-        <!-- Favicon
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <!-- <link href="css/styles.css" rel="stylesheet" /> -->
-        <link href="https://raw.githack.com/luuun1216/data_visualizationHW1/main/styles.css" rel="stylesheet" />
-        <script src="https://d3js.org/d3.v6.js"></script>
-    </head>
-    <body>
-        <!-- Responsive navbar-->
-        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container px-lg-5">
-                <a class="navbar-brand" >HW1 Show the chart_311551100 余孟倫</a>
-                
-            </div>
-        </nav> -->
-        <!-- Header-->
-        <header class="py-5">
-            <div class="container px-lg-5">
-                <div class="p-1 m-lg-2 bg-light rounded-3 text-center">
-                    <div class="m-4 m-lg-5">
-                        <h1 class="display-5 fw-bold">Show the IRIS.csv data!</h1>
-                        <p class="fs-4">Directions : Choose the Xaxis and Yaxis first, then click the button to submit!</p>
-                        <div id="my_dataviz"></div>
-                        <div>Setosa : 黃色 , Versicolor : 青色 , Virginica : 棕色</div>
-                    </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>HW1 IRIS.csv</title>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://raw.githack.com/luuun1216/data_visualizationHW1/main/styles.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v6.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container px-lg-5">
+          <a class="navbar-brand" >Data visualizationHW1 311551100 余孟倫</a>
+          
+      </div>
+    </nav>
+    <!-- Header-->
+    <header class="py-5">
+      <div class="container px-lg-5">
+        <div class="p-1 m-lg-2 bg-light rounded-3 text-center">
+          <div class="m-4 m-lg-5">
+            <h1 class="display-5 fw-bold">Show the IRIS.csv data!</h1>
+            <p class="fs-4">Directions : Choose the Xaxis and Yaxis first, then click the button to submit!</p>
+            <div id="my_dataviz"></div>
+          </div>
+        </div>
+      </div>
+      
+    </header>
+    <!-- Page function-->
+    <section class="pt-4">
+      <div class="container px-lg-5">
+        <div class="row gx-lg-5">
+          
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bar-chart-line-fill"></i></div>
+                <div>
+                  Xaxis:<br>
+                  <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_lengthX" value="sepal length" checked> sepal length</label><br>
+                  <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_widthX" value="sepal width"> sepal width</label><br>
+                  <label style="display: inline;"><input type="radio" name="featureX" id = "petal_lengthX" value="petal length"> petal length</label><br>
+                  <label style="display: inline;" ><input type="radio" name="featureX" id = "petal_widthX" value="petal width"> petal width</label>
                 </div>
+              </div>
             </div>
-            
-        </header>
-        <!-- Page function-->
-        <section class="pt-4">
-            <div class="container px-lg-5">
-                <div class="row gx-lg-5">
-                    <div class="col-lg-6 col-xxl-4 mb-5">
-                        <div class="card bg-light border-0 h-100">
-                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bar-chart-line-fill"></i></div>
-                                <div>
-                                    Xaxis:<br>
-                                    <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_lengthX" value="sepal_length" checked> sepal length</label><br>
-                                    <label style="display: inline;" ><input type="radio" name="featureX" id = "sepal_widthX" value="sepal_width"> sepal width</label><br>
-                                    <label style="display: inline;"><input type="radio" name="featureX" id = "petal_lengthX" value="petal_length"> petal length</label><br>
-                                    <label style="display: inline;" ><input type="radio" name="featureX" id = "petal_widthX" value="petal_width"> petal width</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-xxl-4 mb-5">
-                        <div class="card bg-light border-0 h-100">
-                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bar-chart-line-fill"></i></div>
-                                <div>
-                                    Yaxis:<br>
-                                    <label style="display: none;" id = "sepal_length_label"><input type="radio" name="featureY" id = "sepal_lengthY" value="sepal_length"> sepal length</label><br>
-                                    <label style="display: inline;" id = "sepal_width_label"><input type="radio" name="featureY" id = "sepal_widthY" value="sepal_width"> sepal width</label><br>
-                                    <label style="display: inline;" id = "petal_length_label"><input type="radio" name="featureY" id = "petal_lengthY" value="petal_length" checked> petal length</label><br>
-                                    <label style="display: inline;" id = "petal_width_label"><input type="radio" name="featureY" id = "petal_widthY" value="petal_width"> petal width</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-xxl-4 mb-5">
-                        <div class="card bg-light border-0 h-100">
-                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
-                                <div>
-                                    <!-- <input class="btn btn-primary btn-lg" type="button" id = "submit" value="Click Me to Submit"> -->
-                                    <a class="btn btn-primary btn-lg" id = "submit" style="margin-top: 30px;">Click Me to Submit</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
+          </div>
+
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bar-chart-line-fill"></i></div>
+                <div>
+                  Yaxis:<br>
+                  <label style="display: inline;" id = "sepal_length_label"><input type="radio" name="featureY" id = "sepal_lengthY" value="sepal length"> sepal length</label><br>
+                  <label style="display: inline;" id = "sepal_width_label"><input type="radio" name="featureY" id = "sepal_widthY" value="sepal width"> sepal width</label><br>
+                  <label style="display: inline;" id = "petal_length_label"><input type="radio" name="featureY" id = "petal_lengthY" value="petal length" checked> petal length</label><br>
+                  <label style="display: inline;" id = "petal_width_label"><input type="radio" name="featureY" id = "petal_widthY" value="petal width"> petal width</label>
+                </div>
+              </div>
             </div>
-        </section>
-        
-        <!-- Footer
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-        </footer>-->
-        
-        <script>
-            // set the dimensions and margins of the graph
-            const margin = {top: 30, right: 30, bottom: 60, left: 60},
-                width = 640 - margin.left - margin.right,
-                height = 480 - margin.top - margin.bottom;
-            
-            // append the svg object to the body of the page
-            const svg = d3.select("#my_dataviz")
-              .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-              .append("g")
-                .attr("transform",
-                      `translate(${margin.left}, ${margin.top})`);
-            const iris = []
-            //Read the data
-            d3.csv("http://vis.lab.djosix.com:2020/data/iris.csv").then( function(data) {
-              for(var i = 0;i<data.length-1;i++){
-                iris.push(data[i]);
+          </div>
 
-              }
-              console.log(iris)
-              // Add X axis
-              const x = d3.scaleLinear()
-                .domain([0, 9])
-                .range([ 0, width ]);
-              svg.append("g")
-                .attr("transform", `translate(0, ${height})`)
-                
-                .call(d3.axisBottom(x));
-              
-              // Add Y axis
-              const y = d3.scaleLinear()
-                .domain([0, 9])
-                .range([ height, 0]);
-              svg.append("g")
-                .call(d3.axisLeft(y));
-
-              // Color scale: give me a specie name, I return a color
-              const color = d3.scaleOrdinal()
-                .domain(["setosa", "versicolor", "virginica" ])
-                .range([ "#613030", "#00AEAE", "#F9F900"])
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
+                <div>
+                  <!-- <input class="btn btn-primary btn-lg" type="button" id = "submit" value="Click Me to Submit"> -->
+                  <a class="btn btn-primary btn-lg" id = "submit" style="margin-top: 30px;">Click Me to Submit</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         
-              svg.append("text")
-                .attr("x", (width / 2))             
-                .attr("y", 0 - (margin.top / 2))
-                .attr("text-anchor", "middle")  
-                .style("font-size", "16px") 
-                .style("text-decoration", "underline")  
-                .text("IRIS.csv");
+        </div>    
+      </div>
+    </section>
+  </body>  
+      
+        
+  <script>
+      // set the dimensions and margins of the graph
+      const margin = {top: 30, right: 30, bottom: 60, left: 60},
+          width = 640 - margin.left - margin.right,
+          height = 480 - margin.top - margin.bottom;
+      
+      // append the svg object to the body of the page
+      const svg = d3.select("#my_dataviz")
+        .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform",
+                `translate(${margin.left}, ${margin.top})`)
+        
+
+      
     
-              // Add dots
-              svg.append('g')
-                .selectAll("dot")
-                .data(iris)
-                .join("circle")
-                  .attr("cx", function (d) { return x(d['sepal length']); } )
-                  .attr("cy", function (d) { return y(d['petal length']); } )
-                  .attr("r", 5)
-                  .style("fill", function (d) { return color(d['class']); } )
-                  // .on("mouseover", mouseover )
-                  // .on("mousemove", mousemove )
-           
-              //lock the radio(just for beauty)
-              function lock(){
-                var userInputX = document.querySelector('input[name="featureX"]:checked').value;
-                var radio_id = document.getElementById(userInputX + "_label");
-                //console.log(radio_id)
-                if(userInputX == "sepal_length"){
-                  document.getElementById("sepal_width_label").style.display = "inline";
-                  document.getElementById("petal_length_label").style.display = "inline";
-                  document.getElementById("petal_width_label").style.display = "inline";
-                  radio_id.style.display = "none";
-                }
-                else if(userInputX == "sepal_width"){
-                  document.getElementById("sepal_length_label").style.display = "inline";
-                  document.getElementById("petal_length_label").style.display = "inline";
-                  document.getElementById("petal_width_label").style.display = "inline";
-                  radio_id.style.display = "none";
-                }
-                else if(userInputX == "petal_length"){
-                  document.getElementById("sepal_length_label").style.display = "inline";
-                  document.getElementById("sepal_width_label").style.display = "inline";
-                  document.getElementById("petal_width_label").style.display = "inline";
-                  radio_id.style.display = "none";
-                }
-                else if(userInputX == "petal_width"){
-                  document.getElementById("sepal_length_label").style.display = "inline";
-                  document.getElementById("sepal_width_label").style.display = "inline";
-                  document.getElementById("petal_length_label").style.display = "inline";
-                  radio_id.style.display = "none";
-                }
-              }
+      const iris = []
+      //Read the data
+      d3.csv("http://vis.lab.djosix.com:2020/data/iris.csv").then( function(data) {
+        for(var i = 0;i<data.length-1;i++){
+          iris.push(data[i]);
+        }
         
-              //update plot
-                function update(){
-                var userInputX = document.querySelector('input[name="featureX"]:checked').value;
-                var userInputY = document.querySelector('input[name="featureY"]:checked').value;
-                console.log(userInputX)
-                console.log(userInputY)
+        // Add X axis
+        const x = d3.scaleLinear()
+          .domain([0, 9])
+          .range([ 0, width ]);
+        svg.append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(d3.axisBottom(x));
+        // X axis label:
+        svg.append("text")
+          .attr("class","Xlabel")
+          .attr("text-anchor", "end")
+          .attr("x", width)
+          .attr("y", height + margin.top + 20)
+          .text("sepal length");  
+
+        // Add Y axis
+        const y = d3.scaleLinear()
+          .domain([0, 9])
+          .range([ height, 0]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+        // Y axis label:
+        svg.append("text")
+          .attr("class","ylabel")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -margin.left+20)
+          .attr("x", -margin.top + 30)
+          .text("petal length")
+
+        // Color scale
+        const color = d3.scaleOrdinal()
+          .domain(["setosa", "versicolor", "virginica" ])
+          .range([ "#613030", "#00AEAE", "#F9D400"])
+
+        var size = 20
+        svg.selectAll("mydots")
+          .data(["setosa", "versicolor", "virginica" ])
+          .enter()
+          .append("rect")
+            .attr("x", 10)
+            .attr("y", function(d,i){ return 0 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("width", size)
+            .attr("height", size)
+            .style("fill", function(d){ return color(d)})
+
+        // Add one dot in the legend for each name.
+        svg.selectAll("mylabels")
+          .data(["setosa", "versicolor", "virginica" ])
+          .enter()
+          .append("text")
+            .attr("x", 40)
+            .attr("y", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("fill", function(d){ return color(d)})
+            .text(function(d){ return d})
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+
+        //Add title
+        svg.append("text")
+          .attr("x", (width / 2))             
+          .attr("y", 0 - (margin.top / 2))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "18px") 
+          .style("text-decoration", "underline")  
+          .text("IRIS.csv");
+
+        // Add dots
+        svg.append('g')
+          .selectAll("dot")
+          .data(iris)
+          .join("circle")
+            .attr("cx", function (d) { return x(d['sepal length']); } )
+            .attr("cy", function (d) { return y(d['petal length']); } )
+            .attr("r", 5)
+            .style("fill", function (d) { return color(d['class']); } )
+            
+  
+        //update plot
+        function update(){
+          var userInputX = document.querySelector('input[name="featureX"]:checked').value;
+          var userInputY = document.querySelector('input[name="featureY"]:checked').value;
+          // console.log(userInputX)
+          // console.log(userInputY)
+          svg.selectAll("circle")
+            .data(iris)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d[userInputX]); } )
+            .attr("cy", function (d) { return y(d[userInputY]); } )
+            .style("fill", function (d) { return color(d['class']); } )
+
+          svg.selectAll("text.xlabel")
+            .transition()
+            .duration(1000)
+            .text(userInputX);  
+          
+          svg.selectAll("text.ylabel")
+            .transition()
+            .duration(1000)
+            .text(userInputY)
+
+          
+        }
         
-                //sepal_length
-                if(userInputX == "sepal_length" && userInputY == "sepal_width"){
-                  svg.selectAll("circle")
-                    .data(iris)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal length']); } )
-                    .attr("cy", function (d) { return y(d['sepal width']); } )
-                    .style("fill", function (d) { return color(d['class']); } )
-                  
+        // Add an event listener to the button created in the html part
+        d3.select("#submit").on("click",update)
         
-                }
-                else if(userInputX == "sepal_length" && userInputY == "petal_length"){
-                  svg.selectAll("circle")
-                    .data(iris)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal length']); } )
-                    .attr("cy", function (d) { return y(d['petal length']); } )
-                    .style("fill", function (d) { return color(d['class']); } )  
-                }
-                else if(userInputX == "sepal_length" && userInputY == "petal_width"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal length']); } )
-                    .attr("cy", function (d) { return y(d['petal width']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                //sepal_width
-                else if(userInputX == "sepal_width" && userInputY == "sepal_length"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal width']); } )
-                    .attr("cy", function (d) { return y(d['sepal length']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "sepal_width" && userInputY == "petal_length"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal width']); } )
-                    .attr("cy", function (d) { return y(d['petal length']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "sepal_width" && userInputY == "petal_width"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['sepal width']); } )
-                    .attr("cy", function (d) { return y(d['petal width']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                //petal_length
-                else if(userInputX == "petal_length" && userInputY == "sepal_length"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal length']); } )
-                    .attr("cy", function (d) { return y(d['sepal length']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "petal_length" && userInputY == "sepal_width"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal length']); } )
-                    .attr("cy", function (d) { return y(d['sepal width']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "petal_length" && userInputY == "petal_width"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal length']); } )
-                    .attr("cy", function (d) { return y(d['petal width']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                //petal_width
-                else if(userInputX == "petal_width" && userInputY == "sepal_length"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal width']); } )
-                    .attr("cy", function (d) { return y(d['sepal length']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "petal_width" && userInputY == "sepal_width"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal width']); } )
-                    .attr("cy", function (d) { return y(d['sepal width']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
-                else if(userInputX == "petal_width" && userInputY == "petal_length"){
-                  svg.selectAll("circle")
-                    .data(data)
-                    .transition()
-                    .duration(1000)
-                    .attr("cx", function (d) { return x(d['petal width']); } )
-                    .attr("cy", function (d) { return y(d['petal length']); } )
-                    .style("fill", function (d) { return color(d.class); } )  
-                }
+      })
+  </script>        
+  
+  
+  <!-- Bootstrap core JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="js/scripts.js"></script>
         
-        
-        
-        
-                
-              }
-              
-        
-        
-              // Add an event listener to the button created in the html part
-              d3.select("#submit").on("click",update)
-              d3.select("#sepal_lengthX").on("input",lock)
-              d3.select("#sepal_widthX").on("input",lock)
-              d3.select("#petal_lengthX").on("input",lock)
-              d3.select("#petal_widthX").on("input",lock)
-              
-            })
-        </script>        
-        
-        
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        
-    </body>
+  
 </html>
