@@ -9983,7 +9983,8 @@ textarea.form-control-lg {
   }
 
   .m-lg-2 {
-    margin: 0.5rem !important;
+/*     margin: 0.5rem !important; */
+    margin: -2.0rem !important;
   }
 
   .m-lg-3 {
